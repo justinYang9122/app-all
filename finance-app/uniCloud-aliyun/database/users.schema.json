@@ -1,0 +1,17 @@
+{
+  "bsonType": "object",
+  "required": ["username", "password"],
+  "permission": {
+    "read": "auth.uid == doc._id",
+    "create": true,
+    "update": "auth.uid == doc._id",
+    "delete": false
+  },
+  "properties": {
+    "username": { "bsonType": "string", "description": "用户名" },
+    "password": { "bsonType": "string", "description": "密码哈希", "permission": { "read": false, "write": false } },
+    "nickname": { "bsonType": "string", "description": "昵称" },
+    "avatar": { "bsonType": "string", "description": "头像首字" },
+    "createdAt": { "bsonType": "timestamp", "description": "创建时间" }
+  }
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>财务管家 · 我的</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* 页面独有：个人卡布局 */
+  .profile{display:flex;align-items:center;gap:16px;height:100px;padding:20px}
+</style>
+</head>
+<body>
+<div class="app app--gray app--tabbed">
+  <div class="topbar topbar--center">
+    <span class="topbar__title">我的</span>
+  </div>
+
+  <div class="content">
+    <!-- 个人卡 -->
+    <div class="card profile">
+      <span class="avatar avatar--lg">栗</span>
+      <span class="list-item__text">
+        <span class="list-item__title" style="font-size:18px">栗子</span>
+        <span class="list-item__sub">ID: 88201</span>
+      </span>
+    </div>
+
+    <!-- 设置列表 -->
+    <div class="list">
+      <div class="list-item">
+        <span class="list-item__title">分类管理</span>
+        <svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg>
+      </div>
+      <div class="list-item">
+        <span class="list-item__title">账户管理</span>
+        <svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg>
+      </div>
+      <div class="list-item">
+        <span class="list-item__title">数据导出</span>
+        <svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg>
+      </div>
+      <div class="list-item">
+        <span class="list-item__title">深色模式</span>
+        <svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg>
+      </div>
+      <div class="list-item">
+        <span class="list-item__title">关于财务管家</span>
+        <svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg>
+      </div>
+    </div>
+
+    <button class="btn btn--outline" type="button">退出登录</button>
+  </div>
+
+  <nav class="tabbar">
+    <div class="tabbar__pill">
+      <a class="tab" href="home.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg>
+        <span class="tab__label">首页</span>
+      </a>
+      <a class="tab" href="stats.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round"><path d="M5 20V13M12 20V5M19 20v-6"/></svg>
+        <span class="tab__label">统计</span>
+      </a>
+      <a class="tab" href="accounts.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 9.5h17"/></svg>
+        <span class="tab__label">账户</span>
+      </a>
+      <a class="tab tab--active" href="profile.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c.5-3.5 3-5 6.5-5s6 1.5 6.5 5"/></svg>
+        <span class="tab__label">我的</span>
+      </a>
+    </div>
+    <span class="tabbar__home"></span>
+  </nav>
+</div>
+</body>
+</html>

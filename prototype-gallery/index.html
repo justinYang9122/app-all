@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>财务管家 · 原型导出（AI 友好）</title>
+<style>
+  :root{
+    --primary:#E63329; --primary-dark:#B81F1B; --black:#0F0F0F; --ink:#111111;
+    --gray:#8A8A8E; --border:#EBEBED; --bg:#F6F6F7; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+  body{background:var(--bg);color:var(--ink);padding:24px;max-width:880px;margin:0 auto;line-height:1.6}
+  h1{font-size:26px;font-weight:700;margin-bottom:4px}
+  h2{font-size:18px;font-weight:600;margin:28px 0 12px}
+  p{color:var(--gray);font-size:14px;margin-bottom:8px}
+  .badge{display:inline-block;background:var(--primary);color:#fff;font-size:12px;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+  .tokens{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+  .token{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:13px}
+  .sw{width:18px;height:18px;border-radius:5px;border:1px solid rgba(0,0,0,.08)}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;text-decoration:none;color:inherit;transition:.15s;display:block}
+  .card:hover{border-color:var(--primary);transform:translateY(-2px)}
+  .card .num{color:var(--primary);font-weight:700;font-size:14px}
+  .card .name{font-size:16px;font-weight:600;margin:4px 0}
+  .card .desc{color:var(--gray);font-size:12px}
+  .spec{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;margin-top:12px}
+  .spec a{color:var(--primary);font-weight:600;text-decoration:none}
+  code{background:#fff;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:13px}
+</style>
+</head>
+<body>
+  <span class="badge">红黑高反差 · 移动端原型</span>
+  <h1>财务管家 · 原型导出</h1>
+  <p>6 个独立页面 + 结构化设计规范，专为 AI / 开发工具还原代码而整理。每个页面为纯 HTML+CSS+内联 SVG，无 base64、可直接解析。</p>
+
+  <h2>设计令牌速览</h2>
+  <div class="tokens">
+    <div class="token"><span class="sw" style="background:#E63329"></span>primary #E63329</div>
+    <div class="token"><span class="sw" style="background:#0F0F0F"></span>black #0F0F0F</div>
+    <div class="token"><span class="sw" style="background:#111111"></span>ink #111111</div>
+    <div class="token"><span class="sw" style="background:#8A8A8E"></span>gray #8A8A8E</div>
+    <div class="token"><span class="sw" style="background:#F6F6F7"></span>bg #F6F6F7</div>
+    <div class="token"><span class="sw" style="background:#EBEBED"></span>border #EBEBED</div>
+  </div>
+  <p>圆角：大卡 20 / 卡片 16 / 图标块 12 / 按钮 14 / 胶囊 24–28 ｜ 画布 390×844 ｜ TabBar 高 83 ｜ FAB Ø56</p>
+
+  <h2>页面导航（点击查看原型）</h2>
+  <div class="grid">
+    <a class="card" href="login.html"><div class="num">01</div><div class="name">登录</div><div class="desc">品牌 + 表单 + 主按钮</div></a>
+    <a class="card" href="home.html"><div class="num">02</div><div class="name">首页</div><div class="desc">月度概览 + 明细列表 + FAB</div></a>
+    <a class="card" href="record.html"><div class="num">03</div><div class="name">记账</div><div class="desc">收支切换 + 分类网格 + 保存</div></a>
+    <a class="card" href="stats.html"><div class="num">04</div><div class="name">统计</div><div class="desc">汇总卡 + 分类占比堆叠条</div></a>
+    <a class="card" href="accounts.html"><div class="num">05</div><div class="name">账户</div><div class="desc">总资产 + 账户列表</div></a>
+    <a class="card" href="profile.html"><div class="num">06</div><div class="name">我的</div><div class="desc">个人卡 + 设置菜单</div></a>
+  </div>
+
+  <h2>给 AI / 开发者的规格</h2>
+  <div class="spec">
+    <p>本导出已抽成<b>单一设计系统</b>（与 Google Stitch「令牌 + 组件优先」一致）：</p>
+    <p><a href="tokens.css">→ tokens.css</a>　设计令牌唯一来源（颜色 / 圆角 / 阴影 / 字体）</p>
+    <p><a href="components.css">→ components.css</a>　统一组件词汇（跨 6 页复用）</p>
+    <p><a href="design-spec.md">→ design-spec.md</a>　自包含实现规范（令牌 + 组件树 + 数据模型）</p>
+    <p style="margin-top:10px">使用顺序：先读 <code>tokens.css</code> + <code>components.css</code> 掌握整套管件 → 再读 <code>design-spec.md</code> 拿每页结构 → 最后读对应 <code>*.html</code> 拿真实标记与内联 SVG。</p>
+  </div>
+</body>
+</html>

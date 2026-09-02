@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>财务管家 · 登录</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* 页面独有：品牌区 + 注册行 */
+  .brand{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+  .brand__logo{width:60px;height:60px;border-radius:16px;background:var(--red);display:flex;align-items:center;justify-content:center}
+  .brand__logo svg{width:30px;height:30px}
+  .brand__title{font-size:30px;font-weight:700;color:var(--ink)}
+  .brand__subtitle{font-size:14px;color:var(--gray)}
+  .form{display:flex;flex-direction:column;gap:16px}
+  .register{display:flex;justify-content:center;gap:4px;font-size:14px}
+  .register__hint{color:var(--gray)}
+  .register__link{color:var(--red);font-weight:600}
+</style>
+</head>
+<body>
+<div class="app app--white app--login">
+  <!-- 品牌区 -->
+  <div class="brand">
+    <div class="brand__logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l4 6 4-6M12 11v8M9.5 15h5M9.5 19h5"/></svg>
+    </div>
+    <div class="brand__title">财务管家</div>
+    <div class="brand__subtitle">记录每一笔 · 掌控每一天</div>
+  </div>
+
+  <!-- 表单 -->
+  <form class="form">
+    <div class="field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c.5-3.5 3-5 6.5-5s6 1.5 6.5 5"/></svg>
+      <input type="text" placeholder="请输入用户名">
+    </div>
+    <div class="field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <input type="password" placeholder="请输入密码">
+    </div>
+    <button class="btn" type="button">登录</button>
+    <div class="register">
+      <span class="register__hint">还没有账号？</span>
+      <a class="register__link" href="#">立即注册</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

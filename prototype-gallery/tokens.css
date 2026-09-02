@@ -1,0 +1,51 @@
+/* ============================================================
+   财务管家 · 设计令牌（Design Tokens）— 唯一来源
+   其他页面 / AI 只需读取本文件即可掌握整套设计变量。
+   ============================================================ */
+:root{
+  /* 颜色 */
+  --red:#E63329;          /* 主红：主按钮 / 支出 / 选中态 / Logo / FAB */
+  --red-dark:#B81F1B;     /* 主红按下 / hover */
+  --black:#0F0F0F;        /* 深色卡片底 / 头像底 / 账户图标底 */
+  --ink:#111111;          /* 主文字 / 收入金额 / 图表深段 */
+  --gray:#8A8A8E;         /* 次级文字 / 图标未选中 */
+  --muted:#9A9A9E;        /* 深色卡片上的标签 */
+  --border:#EBEBED;       /* 分割线 / 输入框描边 */
+  --bg:#F6F6F7;           /* 页面背景 / 输入框底 / 图标块底 / Tab 胶囊底 */
+  --white:#FFFFFF;        /* 卡片 / 列表项 / 按钮文字 */
+  --chart-3:#555555;      /* 分类占比第三段 */
+  --chart-4:#C9C9CE;      /* 分类占比第四段 / 占位 */
+  --red-soft:#FDEBE9;     /* 退出登录 hover 底 */
+
+  /* 圆角 */
+  --radius-card:16px;
+  --radius-lg:20px;       /* 大卡片（概览 / 总资产 / 汇总） */
+  --radius-icon:12px;     /* 图标块 */
+  --radius-btn:14px;      /* 按钮 */
+  --radius-pill:28px;     /* 胶囊（Tab Bar / 切换） */
+
+  /* 阴影 */
+  --shadow-card:0 2px 10px rgba(0,0,0,.04);
+  --shadow-fab:0 6px 14px rgba(230,51,41,.4);
+
+  /* 字体 */
+  --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+
+  /* 设备画布 */
+  --screen-w:390px;
+  --screen-h:844px;
+  --tabbar-h:83px;
+}
+
+/* 基础重置 */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#e3e3e6;
+  font-family:var(--font);
+  display:flex;
+  justify-content:center;
+  padding:24px 0;
+  color:var(--ink);
+}
+a{text-decoration:none;color:inherit}
+.num{font-variant-numeric:tabular-nums}   /* 金额等宽数字 */

@@ -1,0 +1,334 @@
+// ============================================================
+// 财务管家 · 公共组件样式（统一词汇）— 跨页面复用
+// 基于 components.css 转换，单位 px → rpx（×2）
+// ============================================================
+// 设计令牌已通过 vite.config.ts additionalData 全局 @use 注入，此处无需重复导入
+
+// 基础重置（背景色由 pages.json globalStyle 统一控制）
+page {
+  font-family: $font;
+  color: $ink;
+}
+
+// 顶部导航栏
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 104rpx;
+  padding: 0 40rpx;
+
+  &--center {
+    justify-content: center;
+  }
+
+  &__title {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: $ink;
+  }
+
+  &__side {
+    font-size: 30rpx;
+    color: $gray;
+  }
+
+  &__action {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: $red;
+  }
+}
+
+// 区块标题
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 32rpx 16rpx;
+
+  &__title {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: $ink;
+  }
+
+  &__more {
+    font-size: 24rpx;
+    color: $gray;
+    display: flex;
+    align-items: center;
+    gap: 4rpx;
+
+    .icon {
+      width: 24rpx;
+      height: 24rpx;
+    }
+  }
+}
+
+// 内容容器
+.content {
+  padding: 16rpx 32rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+// 深色卡片（概览 / 汇总 / 总资产）
+.dark-card {
+  background: $black;
+  border-radius: $radius-lg;
+  padding: 40rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+
+  &__label {
+    font-size: 26rpx;
+    color: $muted;
+  }
+
+  &__amount {
+    font-size: 64rpx;
+    font-weight: 700;
+    color: $white;
+    @include num;
+  }
+
+  &__meta {
+    font-size: 24rpx;
+    color: #6E6E72;
+  }
+
+  &__divider {
+    height: 2rpx;
+    background: #2A2A2A;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: 8rpx;
+
+    &--right {
+      align-items: flex-end;
+    }
+  }
+
+  &__col-label {
+    font-size: 24rpx;
+    color: $gray;
+  }
+
+  &__col-amount {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: $white;
+
+    &--expense {
+      color: $red;
+    }
+  }
+}
+
+// 白色卡片
+.card {
+  background: $white;
+  border-radius: $radius-card;
+  box-shadow: $shadow-card;
+}
+
+// 图标块
+.icon-block {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: $radius-icon;
+  background: $bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .icon {
+    width: 44rpx;
+    height: 44rpx;
+  }
+
+  &--dark {
+    background: $black;
+
+    .icon {
+      color: $white;
+    }
+  }
+}
+
+// 列表项
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rpx;
+  padding: 28rpx;
+  background: $white;
+  border-radius: 28rpx;
+
+  &--tall {
+    height: 136rpx;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 24rpx;
+    min-width: 0;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8rpx;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: $ink;
+  }
+
+  &__sub {
+    font-size: 24rpx;
+    color: $gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__amount {
+    font-size: 34rpx;
+    font-weight: 600;
+    color: $ink;
+    flex-shrink: 0;
+    @include num;
+
+    &--expense {
+      color: $red;
+    }
+  }
+
+  &__chevron {
+    width: 24rpx;
+    height: 24rpx;
+    flex-shrink: 0;
+  }
+}
+
+// 头像
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: $black;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 32rpx;
+
+  &--lg {
+    width: 120rpx;
+    height: 120rpx;
+    font-size: 48rpx;
+  }
+}
+
+// 按钮
+.btn {
+  height: 100rpx;
+  border: none;
+  border-radius: $radius-btn;
+  background: $red;
+  color: $white;
+  font-size: 32rpx;
+  font-weight: 600;
+  width: 100%;
+  line-height: 100rpx;
+  text-align: center;
+
+  &--outline {
+    background: $white;
+    color: $red;
+    border: 3rpx solid $red;
+    height: 96rpx;
+    line-height: 90rpx;
+  }
+}
+
+// 输入框
+.field {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  height: 104rpx;
+  padding: 0 32rpx;
+  background: $bg;
+  border-radius: 28rpx;
+
+  .icon {
+    width: 40rpx;
+    height: 40rpx;
+    flex-shrink: 0;
+  }
+
+  input {
+    flex: 1;
+    font-size: 30rpx;
+    color: $ink;
+  }
+}
+
+// 分段切换
+.toggle {
+  display: flex;
+  width: 440rpx;
+  height: 80rpx;
+  background: $bg;
+  border-radius: $radius-pill;
+  padding: 8rpx;
+  align-self: center;
+
+  &__seg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 32rpx;
+    font-size: 28rpx;
+    font-weight: 600;
+    color: $ink;
+
+    &--active {
+      background: $red;
+      color: $white;
+    }
+  }
+}
+
+// 金额等宽
+.num {
+  font-variant-numeric: tabular-nums;
+}

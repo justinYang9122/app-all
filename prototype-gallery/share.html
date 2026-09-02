@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>财务管家 · 原型预览（可分享单文件）</title>
+<style>
+/* ===== 设计令牌（tokens.css）===== */
+:root{
+  --red:#E63329; --red-dark:#B81F1B; --black:#0F0F0F; --ink:#111111;
+  --gray:#8A8A8E; --muted:#9A9A9E; --border:#EBEBED; --bg:#F6F6F7;
+  --white:#FFFFFF; --chart-3:#555555; --chart-4:#C9C9CE; --red-soft:#FDEBE9;
+  --radius-card:16px; --radius-lg:20px; --radius-icon:12px; --radius-btn:14px; --radius-pill:28px;
+  --shadow-card:0 2px 10px rgba(0,0,0,.04); --shadow-fab:0 6px 14px rgba(230,51,41,.4);
+  --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+  --screen-w:390px; --screen-h:844px; --tabbar-h:83px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+.num{font-variant-numeric:tabular-nums}
+
+/* ===== 公共组件（components.css）===== */
+.app{width:var(--screen-w);min-height:var(--screen-h);position:relative;box-shadow:0 8px 40px rgba(0,0,0,.12);border-radius:8px;overflow:hidden;background:var(--white)}
+.app--gray{background:var(--bg)}
+.app--tabbed{padding-bottom:104px}
+.app--login{padding:96px 28px 40px;display:flex;flex-direction:column;gap:56px}
+.topbar{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 20px}
+.topbar--center{justify-content:center}
+.topbar__title{font-size:17px;font-weight:700;color:var(--ink)}
+.topbar__side{font-size:15px;color:var(--gray)}
+.topbar__action{font-size:14px;font-weight:600;color:var(--red)}
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px}
+.section-head__title{font-size:15px;font-weight:600;color:var(--ink)}
+.section-head__more{font-size:12px;color:var(--gray);display:flex;align-items:center;gap:2px}
+.section-head__more svg{width:12px;height:12px}
+.content{padding:8px 16px 16px;display:flex;flex-direction:column;gap:16px}
+.dark-card{background:var(--black);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:12px}
+.dark-card__label{font-size:13px;color:var(--muted)}
+.dark-card__amount{font-size:32px;font-weight:700;color:var(--white)}
+.dark-card__meta{font-size:12px;color:#6E6E72}
+.dark-card__divider{height:1px;background:#2A2A2A}
+.dark-card__row{display:flex;justify-content:space-between}
+.dark-card__col{display:flex;flex-direction:column;gap:4px}
+.dark-card__col--right{align-items:flex-end}
+.dark-card__col-label{font-size:12px;color:var(--gray)}
+.dark-card__col-amount{font-size:16px;font-weight:600;color:var(--white)}
+.dark-card__col-amount--expense{color:var(--red)}
+.card{background:var(--white);border-radius:var(--radius-card);box-shadow:var(--shadow-card)}
+.icon-block{width:40px;height:40px;border-radius:var(--radius-icon);background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon-block svg{width:22px;height:22px}
+.icon-block--dark{background:var(--black)}
+.icon-block--dark svg{stroke:var(--white)}
+.list{display:flex;flex-direction:column;gap:10px}
+.list-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;background:var(--white);border-radius:14px}
+.list-item--tall{height:68px}
+.list-item__left{display:flex;align-items:center;gap:12px;min-width:0}
+.list-item__text{display:flex;flex-direction:column;gap:4px;min-width:0}
+.list-item__title{font-size:15px;font-weight:600;color:var(--ink)}
+.list-item__sub{font-size:12px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-item__amount{font-size:17px;font-weight:600;color:var(--ink);flex-shrink:0}
+.list-item__amount--expense{color:var(--red)}
+.list-item__chevron{width:12px;height:12px;flex-shrink:0}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--black);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px}
+.avatar--lg{width:60px;height:60px;font-size:24px}
+.btn{height:50px;border:none;border-radius:var(--radius-btn);background:var(--red);color:var(--white);font-size:16px;font-weight:600;cursor:pointer;width:100%}
+.btn:hover{background:var(--red-dark)}
+.btn--outline{background:var(--white);color:var(--red);border:1.5px solid var(--red);height:48px}
+.btn--outline:hover{background:var(--red-soft)}
+.field{display:flex;align-items:center;gap:12px;height:52px;padding:0 16px;background:var(--bg);border-radius:14px}
+.field svg{width:20px;height:20px;flex-shrink:0}
+.field input{flex:1;border:none;outline:none;background:transparent;font-size:15px;color:var(--ink)}
+.field input::placeholder{color:var(--gray)}
+.toggle{display:flex;width:220px;height:40px;background:var(--bg);border-radius:var(--radius-pill);padding:4px;align-self:center}
+.toggle__seg{flex:1;display:flex;align-items:center;justify-content:center;border-radius:16px;font-size:14px;font-weight:600;color:var(--ink)}
+.toggle__seg--active{background:var(--red);color:var(--white)}
+.fab{position:absolute;right:16px;bottom:104px;width:56px;height:56px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-fab);z-index:5}
+.fab svg{width:24px;height:24px}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:var(--tabbar-h);background:var(--white);padding:12px 16px 21px;display:flex}
+.tabbar__pill{flex:1;display:flex;background:var(--bg);border-radius:36px;padding:4px;gap:4px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:26px}
+.tab svg{width:18px;height:18px}
+.tab__label{font-size:10px;color:var(--gray)}
+.tab--active{background:var(--red)}
+.tab--active .tab__label{color:var(--white);font-weight:600}
+.tabbar__home{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;width:134px;height:5px;border-radius:3px;background:var(--ink)}
+
+/* ===== 页面独有样式 ===== */
+/* 登录 */
+.brand{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.brand__logo{width:60px;height:60px;border-radius:16px;background:var(--red);display:flex;align-items:center;justify-content:center}
+.brand__logo svg{width:30px;height:30px}
+.brand__title{font-size:30px;font-weight:700;color:var(--ink)}
+.brand__subtitle{font-size:14px;color:var(--gray)}
+.form{display:flex;flex-direction:column;gap:16px}
+.register{display:flex;justify-content:center;gap:4px;font-size:14px}
+.register__hint{color:var(--gray)}
+.register__link{color:var(--red);font-weight:600}
+/* 首页 */
+.greeting{display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 16px}
+.greeting__text{font-size:18px;font-weight:600;color:var(--ink)}
+.list__date{font-size:12px;color:var(--gray);padding:0 16px}
+.list__group{display:flex;flex-direction:column;gap:8px}
+/* 记账 */
+.content--record{gap:24px}
+.amount{display:flex;align-items:center;justify-content:center;gap:8px;height:64px}
+.amount__yen{font-size:28px;color:var(--gray);font-weight:500}
+.amount__val{font-size:48px;font-weight:700;color:var(--ink)}
+.amount__cursor{width:2px;height:40px;background:var(--red)}
+.grid{display:flex;flex-wrap:wrap}
+.cell{width:20%;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0;cursor:pointer}
+.cell__icon{width:48px;height:48px;border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.cell__icon svg{width:24px;height:24px}
+.cell__label{font-size:11px;color:var(--gray)}
+.cell--active .cell__icon{background:var(--red)}
+.cell--active .cell__icon svg{stroke:#fff}
+.cell--active .cell__label{color:var(--ink);font-weight:600}
+.meta-dot{width:6px;height:6px;border-radius:50%;background:var(--ink);flex-shrink:0}
+.meta-label{font-size:14px;font-weight:600;color:var(--ink)}
+.meta-value{flex:1;text-align:right;font-size:13px;color:var(--gray)}
+/* 统计 */
+.chart{background:var(--white);border-radius:var(--radius-card);padding:16px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow-card)}
+.chart__title{font-size:15px;font-weight:600;color:var(--ink)}
+.chart__bar{display:flex;height:20px;border-radius:10px;overflow:hidden;background:var(--bg)}
+.chart__seg--red{flex:40;background:var(--red)}
+.chart__seg--black{flex:20;background:var(--ink)}
+.chart__seg--gray{flex:25;background:var(--chart-3)}
+.chart__seg--light{flex:15;background:var(--chart-4)}
+.legend{display:flex;flex-direction:column;gap:10px}
+.legend__row{display:flex;align-items:center;justify-content:space-between}
+.legend__left{display:flex;align-items:center;gap:8px}
+.legend__dot{width:8px;height:8px;border-radius:50%}
+.legend__name{font-size:13px;font-weight:600;color:var(--ink)}
+.legend__value{font-size:13px;color:var(--gray)}
+/* 我的 */
+.profile{display:flex;align-items:center;gap:16px;height:100px;padding:20px}
+
+/* ===== 预览画廊布局（仅本页外壳，不与 .app 冲突）===== */
+body.gallery{display:block;padding:0;background:#EDEDF0;color:var(--ink);font-family:var(--font)}
+.gallery__header{text-align:center;padding:36px 16px 8px}
+.gallery__badge{display:inline-block;background:var(--red);color:#fff;font-size:12px;padding:4px 12px;border-radius:20px}
+.gallery__title{font-size:24px;font-weight:700;margin:12px 0 4px}
+.gallery__sub{font-size:14px;color:var(--gray);max-width:520px;margin:0 auto}
+.gallery__frames{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;padding:32px 16px 64px}
+.frame{display:flex;flex-direction:column;align-items:center;gap:10px}
+.frame__label{font-size:13px;font-weight:600;color:var(--gray)}
+.frame__screen{transform:scale(.82);transform-origin:top center}
+a{text-decoration:none;color:inherit}
+</style>
+</head>
+<body class="gallery">
+  <header class="gallery__header">
+    <span class="gallery__badge">红黑高反差 · 移动端原型</span>
+    <h1 class="gallery__title">财务管家 · 原型预览</h1>
+    <p class="gallery__sub">6 个页面（登录 / 首页 / 记账 / 统计 / 账户 / 我的）。本文件为自包含单文件，可直接分享或交给 AI 还原代码。</p>
+  </header>
+
+  <main class="gallery__frames">
+
+    <!-- 01 登录 -->
+    <div class="frame">
+      <span class="frame__label">01 登录</span>
+      <div class="frame__screen">
+        <div class="app app--white app--login">
+          <div class="brand">
+            <div class="brand__logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l4 6 4-6M12 11v8M9.5 15h5M9.5 19h5"/></svg></div>
+            <div class="brand__title">财务管家</div>
+            <div class="brand__subtitle">记录每一笔 · 掌控每一天</div>
+          </div>
+          <form class="form">
+            <div class="field"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c.5-3.5 3-5 6.5-5s6 1.5 6.5 5"/></svg><input type="text" placeholder="请输入用户名"></div>
+            <div class="field"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input type="password" placeholder="请输入密码"></div>
+            <button class="btn" type="button">登录</button>
+            <div class="register"><span class="register__hint">还没有账号？</span><a class="register__link" href="#">立即注册</a></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 首页 -->
+    <div class="frame">
+      <span class="frame__label">02 首页</span>
+      <div class="frame__screen">
+        <div class="app app--gray app--tabbed">
+          <div class="greeting"><span class="greeting__text">早上好，栗子</span><span class="avatar">栗</span></div>
+          <div class="dark-card" style="margin:14px 16px 0">
+            <div class="dark-card__row"><span class="dark-card__label">本月结余</span><span class="topbar__action" style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:600">2026.08<svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg></span></div>
+            <div class="dark-card__amount num">¥ 8,430.50</div>
+            <div class="dark-card__divider"></div>
+            <div class="dark-card__row">
+              <div class="dark-card__col"><span class="dark-card__col-label">收入</span><span class="dark-card__col-amount num">¥ 12,500.00</span></div>
+              <div class="dark-card__col dark-card__col--right"><span class="dark-card__col-label">支出</span><span class="dark-card__col-amount dark-card__col-amount--expense num">-¥ 4,069.50</span></div>
+            </div>
+          </div>
+          <div class="section-head"><span class="section-head__title">本月明细</span><span class="section-head__more">全部<svg viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></span></div>
+          <div class="list" style="padding:0 16px">
+            <div class="list__group">
+              <span class="list__date">今天 · 8月19日</span>
+              <div class="list-item list-item--tall"><div class="list-item__left"><span class="icon-block"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="14" r="6"/><path d="M9 14V9M12 14V7M15 14V9"/></svg></span><span class="list-item__text"><span class="list-item__title">餐饮</span><span class="list-item__sub">午餐 · 星巴克</span></span></div><span class="list-item__amount list-item__amount--expense num">-¥ 38.00</span></div>
+              <div class="list-item list-item--tall"><div class="list-item__left"><span class="icon-block"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15.5l1.3-4.2A2 2 0 0 1 8.2 10h7.6a2 2 0 0 1 1.9 1.3L19 15.5"/><rect x="4" y="15.5" width="16" height="3.2" rx="1.2"/><path d="M7.5 19.5v1M16.5 19.5v1"/></svg></span><span class="list-item__text"><span class="list-item__title">交通</span><span class="list-item__sub">地铁卡充值</span></span></div><span class="list-item__amount list-item__amount--expense num">-¥ 12.50</span></div>
+            </div>
+            <div class="list__group">
+              <span class="list__date">昨天 · 8月18日</span>
+              <div class="list-item list-item--tall"><div class="list-item__left"><span class="icon-block"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6.5 9.5h.01M17.5 14.5h.01"/></svg></span><span class="list-item__text"><span class="list-item__title">工资</span><span class="list-item__sub">八月工资</span></span></div><span class="list-item__amount num">+¥ 12,500.00</span></div>
+              <div class="list-item list-item--tall"><div class="list-item__left"><span class="icon-block"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg></span><span class="list-item__text"><span class="list-item__title">购物</span><span class="list-item__sub">家居用品</span></span></div><span class="list-item__amount list-item__amount--expense num">-¥ 259.00</span></div>
+            </div>
+          </div>
+          <a class="fab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></a>
+          <nav class="tabbar"><div class="tabbar__pill">
+            <a class="tab tab--active" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg><span class="tab__label">首页</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round"><path d="M5 20V13M12 20V5M19 20v-6"/></svg><span class="tab__label">统计</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 9.5h17"/></svg><span class="tab__label">账户</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c.5-3.5 3-5 6.5-5s6 1.5 6.5 5"/></svg><span class="tab__label">我的</span></a>
+          </div><span class="tabbar__home"></span></nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 记账 -->
+    <div class="frame">
+      <span class="frame__label">03 记账</span>
+      <div class="frame__screen">
+        <div class="app app--white">
+          <div class="topbar"><a class="topbar__side" href="#">取消</a><span class="topbar__title">记一笔</span><span class="topbar__action">保存</span></div>
+          <div class="content content--record">
+            <div class="toggle"><span class="toggle__seg toggle__seg--active">支出</span><span class="toggle__seg">收入</span></div>
+            <div class="amount"><span class="amount__yen">¥</span><span class="amount__val num">0.00</span><span class="amount__cursor"></span></div>
+            <div class="grid">
+              <div class="cell cell--active"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="14" r="6"/><path d="M9 14V9M12 14V7M15 14V9"/></svg></span><span class="cell__label">餐饮</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15.5l1.3-4.2A2 2 0 0 1 8.2 10h7.6a2 2 0 0 1 1.9 1.3L19 15.5"/><rect x="4" y="15.5" width="16" height="3.2" rx="1.2"/><path d="M7.5 19.5v1M16.5 19.5v1"/></svg></span><span class="cell__label">交通</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg></span><span class="cell__label">购物</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z" fill="#111" stroke="none"/></svg></span><span class="cell__label">娱乐</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg></span><span class="cell__label">住房</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span><span class="cell__label">医疗</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="3" width="9" height="18" rx="2"/><path d="M10.5 18h3"/></svg></span><span class="cell__label">通讯</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9a2.2 2.2 0 1 0-2.2-2.2"/><path d="M5 20l7-8.5 7 8.5"/></svg></span><span class="cell__label">服饰</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M12 9v11M4 13.5h16"/><path d="M12 9s-3.5-3-5-1.8c-.8.6-.2 1.8 5 1.8z"/><path d="M12 9s3.5-3 5-1.8c.8.6.2 1.8-5 1.8z"/></svg></span><span class="cell__label">人情</span></div>
+              <div class="cell"><span class="cell__icon"><svg viewBox="0 0 24 24" fill="#111"><circle cx="6" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18" cy="12" r="1.7"/></svg></span><span class="cell__label">其他</span></div>
+            </div>
+            <div class="list">
+              <div class="list-item"><div class="list-item__left"><span class="meta-dot"></span><span class="meta-label">账户</span></div><span class="meta-value">现金</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+              <div class="list-item"><div class="list-item__left"><span class="meta-dot"></span><span class="meta-label">备注</span></div><span class="meta-value">添加备注</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+              <div class="list-item"><div class="list-item__left"><span class="meta-dot"></span><span class="meta-label">日期</span></div><span class="meta-value">今天 · 8月19日</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+            </div>
+            <button class="btn" type="button">保存到账本</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 统计 -->
+    <div class="frame">
+      <span class="frame__label">04 统计</span>
+      <div class="frame__screen">
+        <div class="app app--gray app--tabbed">
+          <div class="topbar"><span class="topbar__title" style="display:flex;align-items:center;gap:4px">2026年8月<svg viewBox="0 0 12 12" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg></span><span class="topbar__action">导出</span></div>
+          <div class="content">
+            <div class="dark-card">
+              <span class="dark-card__label">本月结余</span><span class="dark-card__amount num">¥ 8,430.50</span>
+              <div class="dark-card__divider"></div>
+              <div class="dark-card__row">
+                <div class="dark-card__col"><span class="dark-card__col-label">收入</span><span class="dark-card__col-amount num">¥ 12,500</span></div>
+                <div class="dark-card__col dark-card__col--right"><span class="dark-card__col-label">支出</span><span class="dark-card__col-amount dark-card__col-amount--expense num">-¥ 4,069.50</span></div>
+              </div>
+            </div>
+            <div class="chart">
+              <span class="chart__title">分类占比</span>
+              <div class="chart__bar"><span class="chart__seg--red"></span><span class="chart__seg--black"></span><span class="chart__seg--gray"></span><span class="chart__seg--light"></span></div>
+              <div class="legend">
+                <div class="legend__row"><span class="legend__left"><span class="legend__dot" style="background:#E63329"></span><span class="legend__name">餐饮</span></span><span class="legend__value num">¥ 1,628.00 · 40%</span></div>
+                <div class="legend__row"><span class="legend__left"><span class="legend__dot" style="background:#111111"></span><span class="legend__name">交通</span></span><span class="legend__value num">¥ 814.00 · 20%</span></div>
+                <div class="legend__row"><span class="legend__left"><span class="legend__dot" style="background:#555555"></span><span class="legend__name">购物</span></span><span class="legend__value num">¥ 1,017.00 · 25%</span></div>
+                <div class="legend__row"><span class="legend__left"><span class="legend__dot" style="background:#C9C9CE"></span><span class="legend__name">其他</span></span><span class="legend__value num">¥ 610.50 · 15%</span></div>
+              </div>
+            </div>
+          </div>
+          <nav class="tabbar"><div class="tabbar__pill">
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg><span class="tab__label">首页</span></a>
+            <a class="tab tab--active" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 20V13M12 20V5M19 20v-6"/></svg><span class="tab__label">统计</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 9.5h17"/></svg><span class="tab__label">账户</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c.5-3.5 3-5 6.5-5s6 1.5 6.5 5"/></svg><span class="tab__label">我的</span></a>
+          </div><span class="tabbar__home"></span></nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 账户 -->
+    <div class="frame">
+      <span class="frame__label">05 账户</span>
+      <div class="frame__screen">
+        <div class="app app--gray app--tabbed">
+          <div class="topbar"><span class="topbar__title">账户</span><span class="topbar__action">+ 添加账户</span></div>
+          <div class="content">
+            <div class="dark-card"><span class="dark-card__label">总资产</span><span class="dark-card__amount num">¥ 23,450.80</span><span class="dark-card__meta">4 个账户</span></div>
+            <div class="list">
+              <div class="list-item"><div class="list-item__left"><span class="icon-block icon-block--dark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v10H3"/><circle cx="12" cy="12" r="2.5"/></svg></span><span class="list-item__title">现金</span></div><span class="list-item__amount num">¥ 1,250.00</span></div>
+              <div class="list-item"><div class="list-item__left"><span class="icon-block icon-block--dark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 9.5h18"/></svg></span><span class="list-item__title">银行卡</span></div><span class="list-item__amount num">¥ 18,500.80</span></div>
+              <div class="list-item"><div class="list-item__left"><span class="icon-block icon-block--dark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14v9H10l-4 4V6"/></svg></span><span class="list-item__title">微信支付</span></div><span class="list-item__amount num">¥ 2,300.00</span></div>
+              <div class="list-item"><div class="list-item__left"><span class="icon-block icon-block--dark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M9 9h6M12 9v6"/></svg></span><span class="list-item__title">支付宝</span></div><span class="list-item__amount num">¥ 1,400.00</span></div>
+            </div>
+          </div>
+          <nav class="tabbar"><div class="tabbar__pill">
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg><span class="tab__label">首页</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round"><path d="M5 20V13M12 20V5M19 20v-6"/></svg><span class="tab__label">统计</span></a>
+            <a class="tab tab--active" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 9.5h17"/></svg><span class="tab__label">账户</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c.5-3.5 3-5 6.5-5s6 1.5 6.5 5"/></svg><span class="tab__label">我的</span></a>
+          </div><span class="tabbar__home"></span></nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 我的 -->
+    <div class="frame">
+      <span class="frame__label">06 我的</span>
+      <div class="frame__screen">
+        <div class="app app--gray app--tabbed">
+          <div class="topbar topbar--center"><span class="topbar__title">我的</span></div>
+          <div class="content">
+            <div class="card profile"><span class="avatar avatar--lg">栗</span><span class="list-item__text"><span class="list-item__title" style="font-size:18px">栗子</span><span class="list-item__sub">ID: 88201</span></span></div>
+            <div class="list">
+              <div class="list-item"><span class="list-item__title">分类管理</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+              <div class="list-item"><span class="list-item__title">账户管理</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+              <div class="list-item"><span class="list-item__title">数据导出</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+              <div class="list-item"><span class="list-item__title">深色模式</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+              <div class="list-item"><span class="list-item__title">关于财务管家</span><svg class="list-item__chevron" viewBox="0 0 12 12" fill="none" stroke="#8A8A8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3l3 3-3 3"/></svg></div>
+            </div>
+            <button class="btn btn--outline" type="button">退出登录</button>
+          </div>
+          <nav class="tabbar"><div class="tabbar__pill">
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg><span class="tab__label">首页</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round"><path d="M5 20V13M12 20V5M19 20v-6"/></svg><span class="tab__label">统计</span></a>
+            <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#8A8A8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M3.5 9.5h17"/></svg><span class="tab__label">账户</span></a>
+            <a class="tab tab--active" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c.5-3.5 3-5 6.5-5s6 1.5 6.5 5"/></svg><span class="tab__label">我的</span></a>
+          </div><span class="tabbar__home"></span></nav>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "bsonType": "object",
+  "required": ["userId", "type", "categoryId", "categoryName", "categoryIcon", "amount", "accountId", "accountName", "date", "createdAt"],
+  "permission": {
+    "read": "auth.uid == doc.userId",
+    "create": "auth.uid == doc.userId",
+    "update": "auth.uid == doc.userId",
+    "delete": "auth.uid == doc.userId"
+  },
+  "properties": {
+    "userId": { "bsonType": "string", "description": "用户ID", "foreignKey": "users._id" },
+    "type": {
+      "bsonType": "string",
+      "description": "记录类型",
+      "enum": ["expense", "income"]
+    },
+    "categoryId": { "bsonType": "string", "description": "分类ID" },
+    "categoryName": { "bsonType": "string", "description": "分类名" },
+    "categoryIcon": { "bsonType": "string", "description": "分类图标名" },
+    "amount": {
+      "bsonType": "number",
+      "description": "金额（正数）",
+      "minimum": 0
+    },
+    "note": { "bsonType": "string", "description": "备注" },
+    "accountId": { "bsonType": "string", "description": "账户ID" },
+    "accountName": { "bsonType": "string", "description": "账户名" },
+    "date": {
+      "bsonType": "string",
+      "description": "日期 YYYY-MM-DD",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "createdAt": { "bsonType": "timestamp", "description": "创建时间戳" }
+  }
+}

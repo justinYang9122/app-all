@@ -1,0 +1,103 @@
+/* ============================================================
+   财务管家 · 公共组件（统一词汇）— 跨页面复用
+   页面只需 <link> 本文件 + tokens.css，并使用下列类名。
+   ============================================================ */
+
+/* 设备画布 / 屏幕容器 */
+.app{
+  width:var(--screen-w);
+  min-height:var(--screen-h);
+  position:relative;
+  box-shadow:0 8px 40px rgba(0,0,0,.12);
+  border-radius:8px;
+  overflow:hidden;
+}
+.app--white{background:var(--white)}
+.app--gray{background:var(--bg)}
+.app--tabbed{padding-bottom:104px}            /* 为底部 TabBar 留位 */
+.app--login{padding:96px 28px 40px;display:flex;flex-direction:column;gap:56px}
+
+/* 顶部导航栏 */
+.topbar{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 20px}
+.topbar--center{justify-content:center}
+.topbar__title{font-size:17px;font-weight:700;color:var(--ink)}
+.topbar__side{font-size:15px;color:var(--gray)}
+.topbar__action{font-size:14px;font-weight:600;color:var(--red)}
+
+/* 区块标题 */
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px}
+.section-head__title{font-size:15px;font-weight:600;color:var(--ink)}
+.section-head__more{font-size:12px;color:var(--gray);display:flex;align-items:center;gap:2px}
+.section-head__more svg{width:12px;height:12px}
+
+/* 内容容器 */
+.content{padding:8px 16px 16px;display:flex;flex-direction:column;gap:16px}
+
+/* 深色卡片（概览 / 汇总 / 总资产）统一为一套 */
+.dark-card{background:var(--black);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:12px}
+.dark-card__label{font-size:13px;color:var(--muted)}
+.dark-card__amount{font-size:32px;font-weight:700;color:var(--white)}
+.dark-card__meta{font-size:12px;color:#6E6E72}
+.dark-card__divider{height:1px;background:#2A2A2A}
+.dark-card__row{display:flex;justify-content:space-between}
+.dark-card__col{display:flex;flex-direction:column;gap:4px}
+.dark-card__col--right{align-items:flex-end}
+.dark-card__col-label{font-size:12px;color:var(--gray)}
+.dark-card__col-amount{font-size:16px;font-weight:600;color:var(--white)}
+.dark-card__col-amount--expense{color:var(--red)}
+
+/* 白色卡片 */
+.card{background:var(--white);border-radius:var(--radius-card);box-shadow:var(--shadow-card)}
+
+/* 图标块 */
+.icon-block{width:40px;height:40px;border-radius:var(--radius-icon);background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon-block svg{width:22px;height:22px}
+.icon-block--dark{background:var(--black)}
+.icon-block--dark svg{stroke:var(--white)}
+
+/* 列表项（统一：记账记录 / 账户 / 设置项） */
+.list{display:flex;flex-direction:column;gap:10px}
+.list-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;background:var(--white);border-radius:14px}
+.list-item--tall{height:68px}
+.list-item__left{display:flex;align-items:center;gap:12px;min-width:0}
+.list-item__text{display:flex;flex-direction:column;gap:4px;min-width:0}
+.list-item__title{font-size:15px;font-weight:600;color:var(--ink)}
+.list-item__sub{font-size:12px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-item__amount{font-size:17px;font-weight:600;color:var(--ink);flex-shrink:0}
+.list-item__amount--expense{color:var(--red)}
+.list-item__chevron{width:12px;height:12px;flex-shrink:0}
+
+/* 头像 */
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--black);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px}
+.avatar--lg{width:60px;height:60px;font-size:24px}
+
+/* 按钮 */
+.btn{height:50px;border:none;border-radius:var(--radius-btn);background:var(--red);color:var(--white);font-size:16px;font-weight:600;cursor:pointer;width:100%}
+.btn:hover{background:var(--red-dark)}
+.btn--outline{background:var(--white);color:var(--red);border:1.5px solid var(--red);height:48px}
+.btn--outline:hover{background:var(--red-soft)}
+
+/* 输入框 */
+.field{display:flex;align-items:center;gap:12px;height:52px;padding:0 16px;background:var(--bg);border-radius:14px}
+.field svg{width:20px;height:20px;flex-shrink:0}
+.field input{flex:1;border:none;outline:none;background:transparent;font-size:15px;color:var(--ink)}
+.field input::placeholder{color:var(--gray)}
+
+/* 分段切换（支出 / 收入） */
+.toggle{display:flex;width:220px;height:40px;background:var(--bg);border-radius:var(--radius-pill);padding:4px;align-self:center}
+.toggle__seg{flex:1;display:flex;align-items:center;justify-content:center;border-radius:16px;font-size:14px;font-weight:600;color:var(--ink)}
+.toggle__seg--active{background:var(--red);color:var(--white)}
+
+/* 悬浮记账按钮（仅首页） */
+.fab{position:absolute;right:16px;bottom:104px;width:56px;height:56px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-fab);z-index:5}
+.fab svg{width:24px;height:24px}
+
+/* 底部胶囊导航（4 项，选中红底） */
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:var(--tabbar-h);background:var(--white);padding:12px 16px 21px;display:flex}
+.tabbar__pill{flex:1;display:flex;background:var(--bg);border-radius:36px;padding:4px;gap:4px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:26px}
+.tab svg{width:18px;height:18px}
+.tab__label{font-size:10px;color:var(--gray)}
+.tab--active{background:var(--red)}
+.tab--active .tab__label{color:var(--white);font-weight:600}
+.tabbar__home{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;width:134px;height:5px;border-radius:3px;background:var(--ink)}

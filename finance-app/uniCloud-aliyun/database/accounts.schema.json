@@ -1,0 +1,21 @@
+{
+  "bsonType": "object",
+  "required": ["userId", "name", "icon", "balance", "sortOrder"],
+  "permission": {
+    "read": "auth.uid == doc.userId",
+    "create": "auth.uid == doc.userId",
+    "update": "auth.uid == doc.userId",
+    "delete": "auth.uid == doc.userId"
+  },
+  "properties": {
+    "userId": { "bsonType": "string", "description": "用户ID", "foreignKey": "users._id" },
+    "name": { "bsonType": "string", "description": "账户名" },
+    "icon": {
+      "bsonType": "string",
+      "description": "图标名",
+      "enum": ["cash", "bank-card", "wechat", "alipay"]
+    },
+    "balance": { "bsonType": "number", "description": "余额" },
+    "sortOrder": { "bsonType": "int", "description": "排序序号" }
+  }
+}

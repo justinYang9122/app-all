@@ -1,0 +1,66 @@
+{
+  "pages": [
+    {
+      "path": "pages/home/home",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#F6F6F7"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/record/record",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    {
+      "path": "pages/stats/stats",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#F6F6F7"
+      }
+    },
+    {
+      "path": "pages/accounts/accounts",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#F6F6F7"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#F6F6F7"
+      }
+    },
+    {
+      "path": "pages/records/records",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#F6F6F7"
+      }
+    },
+    {
+      "path": "pages/categories/categories",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#F6F6F7"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "财务管家",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#F6F6F7"
+  }
+}

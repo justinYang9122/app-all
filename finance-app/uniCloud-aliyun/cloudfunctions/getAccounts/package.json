@@ -1,0 +1,5 @@
+{
+  "name": "getAccounts",
+  "dependencies": {},
+  "main": "index.js"
+}

@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# 依赖与构建产物
+node_modules/
+dist/
+unpackage/
+
+# 日志
+logs
+*.log
+
+# 本地配置
+*.local
+.env
+.env.*
+
+# Trae 工作区（本地技能与文档，不入库）
+.trae/
